@@ -1,7 +1,7 @@
 ### Wirtualny Ogród Botaniczny
 
-Projekt wykonany w ramach zajęć : **Analiza i projektowanie obiektowe** \
-Wykonany przez : ***Kamila Kapinos***, ***Justyna Gargula***, ***Szymon Hawryluk***.
+Projekt wykonany w ramach zajęć : **[Analiza i projektowanie obiektowe](https://github.com/glowform/projektowanie_obiektowe_UEK)** \
+Wykonany przez : ***Kamila Kapinos***, ***Justyna Gargula***, ***Szymon Hawryluk (221399)***.
 
 **Opis projektu**:
 Wirtualny Ogród Botaniczny to aplikacja, która pozwala użytkownikom na stworzenie i pielęgnację swojego wirtualnego ogrodu. Użytkownicy mogą wybierać różne gatunki roślin, dowiedzieć się więcej o ich właściwościach i wymaganiach pielęgnacyjnych, a następnie dbać o nie w swoim wirtualnym środowisku.
