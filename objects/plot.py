@@ -1,14 +1,14 @@
+from .plant import Plant
+
+
 class Plot:
     def __init__(self):
-        self.contains = None
+        self.contained_plant = None
 
-    def place_plant(self, plant):
-        if self.contains is not None:
+    def place_plant(self, plant: Plant):
+        if self.contained_plant is not None:
             raise ValueError("Plot is already occupied")
-        self.contains = plant
+        self.contained_plant = plant
 
     def remove_plant(self):
-        self.contains = None
-
-    def cotaints_plant(self):
-        return self.contains is not None
+        self.contained_plant = None
