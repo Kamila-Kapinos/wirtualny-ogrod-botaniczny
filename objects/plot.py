@@ -34,5 +34,8 @@ class Plot:
         if self.contained_plant.ready_to_reproduce:
             self.contained_plant.reproduce()
 
+    def __repr__(self):
+        return f"Plot({self.contained_plant})"
+
 
 
