@@ -20,16 +20,16 @@ class Plant:
         }
 
     def requirements_checker(self):
-        flag = True
         for key, value in self.care_requirements.items():
-            test_1 = range(- self.plant_level, self.plant_level + 1)
-            if self.care_record[key] - self.care_requirements[key] in test_1:  # (-1, 0, 1):
+            survive = range(- self.plant_level - 1, self.plant_level)  # if in this range don't grow but don't die
+            if self.care_record[key] - self.care_requirements[key] in (-1, 0, 1):
                 pass
-            else:
+            elif self.care_record[key] - self.care_requirements[key] in survive:
                 print("Warning! Take care of your plant")
-                flag = False
-                break
-        return flag
+                return 0
+            else:
+                return -1
+        return 1
 
     def grow(self):
         if self.requirements_checker():
