@@ -21,7 +21,7 @@ class Plant:
 
     def requirements_checker(self):
         for key, value in self.care_requirements.items():
-            survive = range(- self.plant_level - 1, self.plant_level)  # if in this range don't grow but don't die
+            survive = range(- (self.plant_level - 1), self.plant_level)  # if in this range don't grow but don't die
             if self.care_record[key] - self.care_requirements[key] in (-1, 0, 1):
                 pass
             elif self.care_record[key] - self.care_requirements[key] in survive:
@@ -32,10 +32,7 @@ class Plant:
         return 1
 
     def grow(self):
-        if self.requirements_checker():
-            self.plant_level += 1
-        else:
-            self.plant_level -= 1
+        self.plant_level += self.requirements_checker()
 
     def wither(self):
         if self.plant_level < 0:
