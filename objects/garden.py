@@ -1,6 +1,6 @@
 from .plant import Plant
 from .plot import Plot
-from random import randint
+from random import choice, randint
 import sys
 
 
@@ -13,17 +13,29 @@ class Garden:
         self.day_counter = 0
 
     def reproduce(self, x: int, y: int):
-        if self.plots[x][y].check_reproduce_plant():  # roślina jest gotowa do reprodukcji
-            available_plots = []
-            # FUdaj dodaać funkcję która sprawdza czy są wolne miejsca obok
-            if not self.plots[x + 1][y].contained_plant:
-                available_plots.append((x + 1, y))
-            pass
-            # GET RANGE OF AVALIBLE PLOTS and get one random plot
-            x, y = available_plots[randint(0, len(available_plots) - 1)]
-            self.plots[x][y] = self.plots[x][y].add_plant(self.plots[x][y].contained_plant.get_dna())
-        else:
-            pass
+        if not self.plots[x][y].contained_plant or not self.plots[x][y].contained_plant.ready_to_reproduce:
+            return  # No plant to reproduce or not ready
+
+        # Directions: left, right, up, down
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        available_plots = []
+
+        # Check available adjacent plots
+        for dx, dy in directions:
+            new_x, new_y = x + dx, y + dy
+            # Check if new_x and new_y are within the garden boundaries
+            if 0 <= new_x < self.m and 0 <= new_y < self.n:
+                if not self.plots[new_x][new_y].contained_plant:
+                    available_plots.append((new_x, new_y))
+
+        if not available_plots:
+            return  # No available plots for reproduction
+
+        # Randomly select an available plot
+        selected_plot_x, selected_plot_y = choice(available_plots)
+        self.plots[selected_plot_x][selected_plot_y].place_plant(
+            self.plots[x][y].contained_plant.get_offspring()
+        )
 
     def add_plant(self, plant: Plant, x: int = 0, y: int = 0):
         self.plots[x][y].place_plant(plant)
@@ -39,27 +51,29 @@ class Garden:
                 for plot in row:
                     plot.water()
         else:
-            self.plots[x][y].water()
+            self.plots[y][x].water()
 
     def harvest(self, x: int = None, y: int = None):
         # harvest all plots by default or harvest a specific plot given x,y coordinates
-        if x or y is None:
+        if y is None or x is None:
             for row in self.plots:
                 for plot in row:
                     plot.harvest()
         else:
-            self.plots[x][y].harvest()
+            self.plots[y][x].harvest()
 
     def end_day(self):
         # Iterate over all plots in the garden
-        for row in self.plots:
-            for plot in row:
+        for y, row in enumerate(self.plots):
+            for x, plot in enumerate(row):
                 if plot.contained_plant:
                     # Update each plant
                     plot.contained_plant.update(self.sunny, self.raining)
+                    self.harvest(x, y)
+                    self.reproduce(x, y)
         # END OF ITERATION
 
-        # ends day and calculates plant growth
+        # ends day calculations for the next day
         self._sunny_day()
         self._rainy_day()
         self.day_counter += 1
@@ -91,3 +105,6 @@ class Garden:
             sys.stdout.write('\n')
             sys.stdout.write(horizontal_separator + '\n')
         sys.stdout.flush()
+
+    def __repr__(self):
+        return f"Garden(Day:{self.day_counter} {self.n}, {self.m})"
