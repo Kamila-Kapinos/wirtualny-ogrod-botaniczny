@@ -40,13 +40,8 @@ class Plant:
 
     def reproduction(self):
         # at this level plant is able to create new plants in adjacent plots
-        if self.plant_level == 5:
-            self.ready_to_reproduce = True
-        else:
-            self.ready_to_reproduce = False
-
-    def reproduce(self):
-        self.reproduce_cooldown = 5
+        self.ready_to_reproduce = self.plant_level >= 5
+        return self.ready_to_reproduce
 
     def update(self, is_in_sunlight: bool, is_raining: bool):
         self.care_record["sunlight_exposure"] += is_in_sunlight
@@ -69,6 +64,9 @@ class Plant:
         pass
 
     def get_offspring(self):
+        self.reproduce_cooldown = 5
+
+        # cooping the plant
         offspring = copy.deepcopy(self)
         # reset attr
         offspring.plant_level = 1
