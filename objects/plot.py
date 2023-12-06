@@ -30,12 +30,17 @@ class Plot:
     def update(self):
         pass
 
-    def reproduce_plant(self):
-        if self.contained_plant.ready_to_reproduce:
-            self.contained_plant.reproduce()
+    def has_plant(self) -> bool:
+        return self.contained_plant is not None
 
+    def is_ready_to_reproduce(self) -> bool:
+        if self.contained_plant is None:
+            return False
+        return self.contained_plant.ready_to_reproduce
+
+    def get_plant_offspring(self) -> Plant:
+        if self.contained_plant is None:
+            raise ValueError("Plot is empty")
+        return self.contained_plant.get_offspring()
     def __repr__(self):
         return f"Plot({self.contained_plant})"
-
-
-

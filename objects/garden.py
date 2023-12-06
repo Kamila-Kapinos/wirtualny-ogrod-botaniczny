@@ -13,7 +13,7 @@ class Garden:
         self.day_counter = 0
 
     def reproduce(self, x: int, y: int):
-        if not self.plots[x][y].contained_plant or not self.plots[x][y].contained_plant.ready_to_reproduce:
+        if not self.plots[x][y].has_plant() or not self.plots[x][y].is_ready_to_reproduce:
             return  # No plant to reproduce or not ready
 
         # Directions: left, right, up, down
@@ -25,16 +25,17 @@ class Garden:
             new_x, new_y = x + dx, y + dy
             # Check if new_x and new_y are within the garden boundaries
             if 0 <= new_x < self.m and 0 <= new_y < self.n:
-                if not self.plots[new_x][new_y].contained_plant:
+                if not self.plots[new_x][new_y].has_plant():
                     available_plots.append((new_x, new_y))
 
         if not available_plots:
+            ## maybe set this plot to not reproducable for a few days
             return  # No available plots for reproduction
 
         # Randomly select an available plot
         selected_plot_x, selected_plot_y = choice(available_plots)
         self.plots[selected_plot_x][selected_plot_y].place_plant(
-            self.plots[x][y].contained_plant.get_offspring()
+            self.plots[x][y].get_plant_offspring()
         )
 
     def add_plant(self, plant: Plant, x: int = 0, y: int = 0):
