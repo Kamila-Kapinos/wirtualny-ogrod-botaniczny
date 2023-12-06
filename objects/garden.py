@@ -94,7 +94,7 @@ class Garden:
 
     def show(self):
         n = len(self._plots[0])  # Assuming all rows have equal number of plots
-        horizontal_separator = '+' + ('---+' * n)
+        horizontal_separator = '+' + ('----+' * n)
         sys.stdout.write(horizontal_separator + '\n')
         for row in self._plots:
             sys.stdout.write('|')  # Start of row
@@ -102,7 +102,7 @@ class Garden:
                 if plot.has_plant():
                     sys.stdout.write(f" {plot} |")  # Plot with plant
                 else:
-                    sys.stdout.write(" 🟤 |")  # Empty plot
+                    sys.stdout.write(" 🟫 |")  # Empty plot
             sys.stdout.write('\n')
             sys.stdout.write(horizontal_separator + '\n')
         sys.stdout.flush()
