@@ -7,7 +7,8 @@ class Plot:
 
     def place_plant(self, plant: Plant):
         if self._contained_plant is not None:
-            raise ValueError("Plot is already occupied")
+            pass
+            # raise ValueError("Plot is already occupied")
         self._contained_plant = plant
 
     def remove_plant(self):
@@ -19,13 +20,17 @@ class Plot:
 
     def water_plant(self):
         if self._contained_plant is None:
-            raise ValueError("Plot is empty")
-        self._contained_plant.water()
+            pass
+            # raise ValueError("Plot is empty")
+        else:
+            self._contained_plant.water()
 
     def harvest_plant(self):
         if self._contained_plant is None:
-            raise ValueError("Plot is empty")
-        self._contained_plant.harvest()
+            pass
+            # raise ValueError("Plot is empty")
+        else:
+            self._contained_plant.harvest()
 
     def update(self, is_in_sunlight: bool, is_raining: bool):
         if self._contained_plant is None:
