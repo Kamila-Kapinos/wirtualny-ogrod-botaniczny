@@ -1,18 +1,20 @@
 from objects import *
 from random import randint
 
+from random import randint
+
 
 def main():
-    n,m = 5,5
+    n, m = 5, 5
     garden = Garden(n, m)
-    for i in range(n):
-        x, y = randint(0, n-1), randint(0, n-1)
-        plant = Flower(name=f'plant{i}')
-        garden.add_plant(plant, x, y)
-    for i in range(2):
-        x, y = randint(0, n-1), randint(0, n-1)
-        plant = Tree(name=f'plant{i}')
-        garden.add_plant(plant, x, y)
+    plants = [("Flower", 3), ("Tree", 2), ("Bush", 2)]
+
+    for plant_type, quantity in plants:
+        for i in range(quantity):
+            x, y = randint(0, n - 1), randint(0, n - 1)
+            plant = globals()[plant_type](name=f'{plant_type.lower()}{i}')
+            garden.add_plant(plant, x, y)
+
     garden.show()
 
 
@@ -24,9 +26,9 @@ def simulation():
     while True:
         garden.end_day()
         garden.show()
-        #break
+        # break
 
 
 if __name__ == '__main__':
     main()
-    #simulation()
+    # simulation()
