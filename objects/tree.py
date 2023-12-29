@@ -26,8 +26,8 @@ class Tree(Plant):
         if self._blooming:
             self._bloom()
         if self._fruit_bearing:
-            # changes flower to fruit
-            pass
+            # grows flower to fruit
+            self._fruitful()
         # Just droping leaves idk what for
         if self._leaves:
             self._foliate()
