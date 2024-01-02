@@ -1,19 +1,23 @@
 from objects import *
 from random import randint
+import json
 
 
-def main():
-    n, m = 5, 5
-    garden = Garden(n, m)
-    plants = [("Flower", 3), ("Tree", 2), ("Bush", 2)]
+def main(preset=True):
+    if preset:
+        n, m = 5, 5
+        garden = Garden(n, m)
+        plants = [("Flower", 3), ("Tree", 2), ("Bush", 2)]
 
-    for plant_type, quantity in plants:
-        for i in range(quantity):
-            x, y = randint(0, n - 1), randint(0, n - 1)
-            plant = globals()[plant_type](name=f'{plant_type.lower()}{i}')
-            garden.add_plant(plant, x, y)
-
-    garden.show()
+        for plant_type, quantity in plants:
+            for i in range(quantity):
+                x, y = randint(0, n - 1), randint(0, n - 1)
+                plant = globals()[plant_type](name=f'{plant_type.lower()}{i}')
+                garden.add_plant(plant, x, y)
+    else:
+        n = int(input("Enter number of rows: "))
+        m = int(input("Enter number of columns: "))
+        garden = Garden(n, m)
 
     while True:
         garden.show()
@@ -22,14 +26,31 @@ def main():
         print("2. Water them")
         print("3. Harvest")
         print("4. Skip day")
-        print("5. Exit")
+        print("5. Status")
+        print("6. Exit")
+        print("7. Save garden to file")
         choice = input("Enter your choice (1-5): ")
 
+        #  TODO maybe do it in switch case
         if choice == '1':
+            coordinates = input("Enter coordinates x,y (leave blank if random): ")
             plant_type = input("Enter plant type (Flower, Tree, Bush): ")
-            for i in range(1):  # Assuming adding one plant at a time
+            while plant_type not in ("Flower", "Tree", "Bush"):
+                print("Invalid plant type. Please enter a valid plant type.")
+                plant_type = input("Enter plant type (Flower, Tree, Bush): ")
+            name = input("Enter plant name: ")
+            if name == '':
+                name = f'{plant_type.lower()}{randint(0, 100)}'
+            # TODO if empty name, generate random name
+            if coordinates:
+                x, y = coordinates.split(',')
+                x, y = int(x), int(y)
+                plant = globals()[plant_type](name=name)
+                # plant = Plant(name=name)
+                garden.add_plant(plant, x, y)
+            else:
                 x, y = randint(0, n - 1), randint(0, n - 1)
-                plant = globals()[plant_type](name=f'{plant_type.lower()}{randint(0, 100)}')
+                plant = globals()[plant_type](name=name)
                 garden.add_plant(plant, x, y)
         elif choice == '2':
             garden.water_plant()
@@ -38,9 +59,17 @@ def main():
         elif choice == '4':
             garden.end_day()
         elif choice == '5':
+            status = json.dumps(garden.status(), indent=2)
+            # TODO parse status
+            print(status)
+            pass
+        elif choice == '6':
+            break
+        elif choice == '7':
             break
         else:
             print("Invalid choice. Please enter a number between 1 and 5.")
 
+
 if __name__ == '__main__':
-    main()
+    main(False)
