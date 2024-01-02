@@ -93,6 +93,7 @@ class Garden:
             self._raining = False
 
     def show(self):
+        # TODO: add weather status
         n = len(self._plots[0])  # Assuming all rows have equal number of plots
         horizontal_separator = '+' + ('----+' * n)
         sys.stdout.write(horizontal_separator + '\n')
@@ -106,6 +107,16 @@ class Garden:
             sys.stdout.write('\n')
             sys.stdout.write(horizontal_separator + '\n')
         sys.stdout.flush()
+
+    def status(self) -> list:
+        status = []
+        for x, row in enumerate(self._plots):
+            for y, plot in enumerate(row):
+                if plot.has_plant():
+                    plot_status = plot.get_plant_status()
+                    plot_status['coordinates'] = (x, y)
+                    status.append(plot_status)
+        return status
 
     def __repr__(self):
         return f"Garden(Day:{self._day_counter} {self._n}, {self._m})"
