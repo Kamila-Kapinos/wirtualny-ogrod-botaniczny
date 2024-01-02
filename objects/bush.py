@@ -11,19 +11,22 @@ class Bush(Plant):
         self._leaves = False
         self._fruit_list = []
 
-    def _foliate(self):
-        pass
+    def _foliate(self) -> None:
+        self._leaves = True
 
-    def _drop_leaves(self):
-        pass
+    def _drop_leaves(self) -> None:
+        self._leaves = False
+
+    def _grow(self):
+        super()._grow()
+
+        self._blooming = self._plant_level >= 10
+        self._fruitful = self._plant_level >= 15
+        if self._plant_level >= 5 and not self._leaves:
+            self._foliate()
 
     def update(self, is_in_sunlight: bool, is_raining: bool):
         super().update(is_in_sunlight, is_raining)
-
-        # TODO: this is just a concept
-        self._blooming = self._plant_level >= 10
-        self._fruitful = self._plant_level >= 15
-        self._leaves = self._plant_level >= 5
 
         if self._blooming:
             self._bloom()
