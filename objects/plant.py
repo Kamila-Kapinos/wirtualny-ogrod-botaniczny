@@ -80,8 +80,15 @@ class Plant:
 
         return offspring
 
-    def status(self):
-        return f"{self._name} is a {self.__class__.__name__} at level {self._plant_level}."
+    def get_status(self):
+        return {
+            "name": self._name,
+            "emoji": self.emoji,
+            "level": self._plant_level,
+            "requirements": self._care_requirements,
+            "care_record": self._care_record,
+        }
+        # return f"{self._name} is a {self.__class__.__name__} at level {self._plant_level}."
 
     def __repr__(self):
         return (f"{self.emoji} {self._name}, l: {self._plant_level} w : {self._care_record['water_frequency']},"
