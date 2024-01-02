@@ -50,6 +50,11 @@ class Plot:
             raise ValueError("Plot is empty")
         return self._contained_plant.get_offspring()
 
+    def get_plant_status(self) -> dict:
+        if self._contained_plant is None:
+            pass
+            # raise ValueError("Plot is empty")
+        return self._contained_plant.get_status()
     def __repr__(self):
         return f"Plot({self._contained_plant})"
 
