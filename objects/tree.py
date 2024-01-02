@@ -17,7 +17,8 @@ class Tree(Plant):
         # TODO: this is just a concept
         self._blooming = self._plant_level >= 10
         self._fruit_bearing = self._plant_level >= 15
-        self._leaves = self._plant_level >= 5
+        if self._plant_level >= 5 and not self._leaves:
+            self._foliate()
 
     def update(self, is_in_sunlight: bool, is_raining: bool):
         super().update(is_in_sunlight, is_raining)
@@ -32,12 +33,12 @@ class Tree(Plant):
         if self._leaves:
             self._foliate()
 
-    def _foliate(self):
-        pass
+    def _foliate(self) -> None:
+        self._leaves = True
 
     # Based on time
-    def _drop_leaves(self):
-        pass
+    def _drop_leaves(self) -> None:
+        self._leaves = False
 
     def harvest(self) -> list:
         harvested = []
