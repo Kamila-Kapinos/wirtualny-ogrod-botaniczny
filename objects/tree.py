@@ -6,7 +6,7 @@ class Tree(Plant):
     def __init__(self, name: str, emoji: str = '🌳', reproduce_level: int = 15, max_fruits: int = 15):
         super().__init__(name, emoji, reproduce_level)
         self._blooming = False  # tree can bloom and later bears fruit.
-        self._fruit_bearing = False
+        self._fruitful = False
         self._leaves = False
         self._max_fruits = max_fruits
         self._fruit_list = []
@@ -25,10 +25,10 @@ class Tree(Plant):
         #  TODO: this is just a concept
         if self._blooming:
             self._bloom()
-        if self._fruit_bearing:
+        if self._fruitful:
             # grows flower to fruit
-            self._fruitful()
-        # Just droping leaves idk what for
+            self._fruit_bearing()
+        # Just dropping leaves idk what for
         if self._leaves:
             self._foliate()
 
@@ -51,7 +51,7 @@ class Tree(Plant):
         if len(self._fruit_list) < self._max_fruits:
             self._fruit_list.append(Fruit())
 
-    def _fruitful(self) -> None:
+    def _fruit_bearing(self) -> None:
         # Create fruit class
         for fruit in self._fruit_list:
             fruit.update()
