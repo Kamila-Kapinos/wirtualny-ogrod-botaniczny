@@ -1,6 +1,5 @@
 from objects import *
 from random import randint
-import json
 
 
 def main(preset=True):
@@ -59,9 +58,15 @@ def main(preset=True):
         elif choice == '4':
             garden.end_day()
         elif choice == '5':
-            status = json.dumps(garden.status(), indent=2)
-            # TODO parse status
-            print(status)
+            status = garden.status()
+            for plant in status:
+                print("-"*30)  # Divider between plants
+                print(f"{plant['name']} {plant['emoji']} - Lvl: {plant['level']} - Coord: {plant['coordinates']}")
+                print("Req: ", end='')
+                print(" ".join([f"{key.split('_')[0]}:{value}" for key, value in plant['requirements'].items()]))
+                print("Care: ", end='')
+                print(" ".join([f"{key.split('_')[0]}:{value}" for key, value in plant['care_record'].items()]))
+            print("-"*30)  # Divider between plants
             pass
         elif choice == '6':
             break
@@ -72,4 +77,4 @@ def main(preset=True):
 
 
 if __name__ == '__main__':
-    main(False)
+    main(True)
