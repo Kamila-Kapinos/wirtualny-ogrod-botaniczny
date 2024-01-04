@@ -1,6 +1,6 @@
 from objects import *
 from random import randint
-
+import pickle
 
 def main(preset=True):
     if preset:
@@ -14,9 +14,9 @@ def main(preset=True):
                 plant = globals()[plant_type](name=f'{plant_type.lower()}{i}')
                 garden.add_plant(plant, x, y)
     else:
-        n = int(input("Enter number of rows: "))
-        m = int(input("Enter number of columns: "))
-        garden = Garden(n, m)
+        with open('garden.pkl', 'rb') as file:
+            garden = pickle.load(file)
+
 
     while True:
         garden.show()
@@ -28,29 +28,23 @@ def main(preset=True):
         print("5. Status")
         print("6. Exit")
         print("7. Save garden to file")
-        choice = input("Enter your choice (1-5): ")
+        choice = input("Enter your choice (1-7): ")
 
         #  TODO maybe do it in switch case
         if choice == '1':
-            coordinates = input("Enter coordinates x,y (leave blank if random): ")
-            plant_type = input("Enter plant type (Flower, Tree, Bush): ")
-            while plant_type not in ("Flower", "Tree", "Bush"):
-                print("Invalid plant type. Please enter a valid plant type.")
+            coords = input("Enter coordinates x,y (leave blank if random): ")
+            x,y=map(int, coords.split(',')) if coords else (randint(0, n - 1), randint(0, n - 1))
+
+            plant_type = ''
+            while plant_type not in {"Flower", "Tree", "Bush"}: 
                 plant_type = input("Enter plant type (Flower, Tree, Bush): ")
-            name = input("Enter plant name: ")
-            if name == '':
-                name = f'{plant_type.lower()}{randint(0, 100)}'
-            # TODO if empty name, generate random name
-            if coordinates:
-                x, y = coordinates.split(',')
-                x, y = int(x), int(y)
-                plant = globals()[plant_type](name=name)
-                # plant = Plant(name=name)
-                garden.add_plant(plant, x, y)
-            else:
-                x, y = randint(0, n - 1), randint(0, n - 1)
-                plant = globals()[plant_type](name=name)
-                garden.add_plant(plant, x, y)
+                if plant_type not in {"Flower", "Tree", "Bush"}:
+                    print("Invalid plant type. Please enter a valid plant type.")
+            
+            name = input("Enter plant name: ") or f'{plant_type.lower()}{randint(0, 100)}'
+            plant = globals()[plant_type](name=name)  # Ensure globals()[plant_type] is safe to use
+            garden.add_plant(plant, x, y)
+
         elif choice == '2':
             garden.water_plant()
         elif choice == '3':
@@ -67,13 +61,15 @@ def main(preset=True):
                 print("Care: ", end='')
                 print(" ".join([f"{key.split('_')[0]}:{value}" for key, value in plant['care_record'].items()]))
             print("-"*30)  # Divider between plants
-            pass
         elif choice == '6':
             break
         elif choice == '7':
-            break
+            filename = 'garden.pkl'
+            with open(filename, 'wb') as file:
+                pickle.dump(garden, file)
+            print(f"Garden saved to {filename}.")
         else:
-            print("Invalid choice. Please enter a number between 1 and 5.")
+            print("Invalid choice. Please enter a number between 1 and 7.")
 
 
 if __name__ == '__main__':
