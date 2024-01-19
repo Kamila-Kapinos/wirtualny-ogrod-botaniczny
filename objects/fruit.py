@@ -16,6 +16,8 @@ class Fruit:
         
     def update(self):
         self._emoji, self._color = choice(list(self.__emojis_and_colors.items()))
+        self._is_ripe = True
+        return self
 
     def is_ripe(self):
         return self._is_ripe
