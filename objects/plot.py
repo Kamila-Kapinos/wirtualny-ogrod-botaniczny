@@ -24,13 +24,16 @@ class Plot:
             # raise ValueError("Plot is empty")
         else:
             self._contained_plant.water()
+    
+    def is_dead(self):
+        return self._contained_plant.is_dead
 
     def harvest_plant(self):
         if self._contained_plant is None:
             pass
             # raise ValueError("Plot is empty")
         else:
-            self._contained_plant.harvest()
+            return self._contained_plant.harvest() # list
 
     def update(self, is_in_sunlight: bool, is_raining: bool):
         if self._contained_plant is None:
