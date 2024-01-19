@@ -17,6 +17,12 @@ class Plot:
 
         # method could return some information about the plant that was removed
         self._contained_plant = None
+    def sunlight_plant(self):
+        if self._contained_plant is None:
+            pass
+            # raise ValueError("Plot is empty")
+        else:
+            self._contained_plant.sunlight()
 
     def water_plant(self):
         if self._contained_plant is None:
@@ -34,7 +40,7 @@ class Plot:
             # raise ValueError("Plot is empty")
         else:
             return self._contained_plant.harvest() # list
-
+    
     def update(self, is_in_sunlight: bool, is_raining: bool):
         if self._contained_plant is None:
             pass

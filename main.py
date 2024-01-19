@@ -24,11 +24,14 @@ def main(garden_save):
         print("Choose an action:")
         print("1. Add more plants")
         print("2. Water them")
-        print("3. Harvest")
-        print("4. End day")
-        print("5. Status")
-        print("6. Exit")
-        print("7. Save garden to file")
+        print("3. Sunlight") # TODO: rename this?
+        print("4. Harvest")
+        print("5. End day")
+        print("6. Status")
+        
+        
+        print("9. Exit")
+        print("0. Save garden to file")
         choice = input("Enter your choice (1-7): ")
 
         
@@ -56,7 +59,7 @@ def main(garden_save):
             garden.show()
 
         elif choice == '2':
-            input_coords = input("Enter coordinates x,y (leave blank if water all): ")
+            input_coords = input("Enter coordinates x,y (leave blank for all): ")
             if input_coords:
                 x,y=map(int, input_coords.split(','))
                 garden.water_plant(x,y)
@@ -64,13 +67,25 @@ def main(garden_save):
                 garden.water_plant()
 
         elif choice == '3':
-                # TODO SAME AS WITH WATER
-                harvested_fruits = garden.harvest_plant()
-                print("Harvested fruits: ", [fruit._emoji for fruit in harvested_fruits])
-                
+            input_coords = input("Enter coordinates x,y (leave blank for all): ")
+            if input_coords:
+                x,y=map(int, input_coords.split(','))
+                garden.sunlight_plant(x,y)
+            else:
+                garden.sunlight_plant()
+
         elif choice == '4':
-            garden.end_day()
+            input_coords = input("Enter coordinates x,y (leave blank for all): ")
+            if input_coords:
+                x,y=map(int, input_coords.split(','))
+                harvested_fruits = garden.harvest_plant(x,y)
+            else:
+                harvested_fruits = garden.harvest_plant()
+            print("Harvested fruits: ", [fruit._emoji for fruit in harvested_fruits])
+                
         elif choice == '5':
+            garden.end_day()
+        elif choice == '6':
             status = garden.status()
             for plant in status:
                 print("-"*30)  # Divider between plants
@@ -89,9 +104,9 @@ def main(garden_save):
 
 
             garden.show() # Show garden after status
-        elif choice == '6':
+        elif choice == '9':
             break
-        elif choice == '7':
+        elif choice == '0':
             filename = input("Enter filename to save to: ")
             with open(filename, 'wb') as file:
                 pickle.dump(garden, file)

@@ -45,6 +45,15 @@ class Garden:
         self._plots[x][y].remove_plant()
         # maybe add a warning if user wants to remove a plant, so he doesn't do it by mistake
 
+    def sunlight_plant(self, x: int = None, y: int = None):
+        # sunlight all plots by default or sunlight a specific plot given x,y coordinates
+        if x or y is None:
+            for row in self._plots:
+                for plot in row:
+                    plot.sunlight_plant()
+        else:
+            self._plots[y][x].sunlight_plant()
+
     def water_plant(self, x: int = None, y: int = None):
         # water all plots by default or water a specific plot given x,y coordinates
         if x or y is None:

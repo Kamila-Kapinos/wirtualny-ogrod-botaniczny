@@ -60,6 +60,9 @@ class Plant:
     def water(self):
         self._care_record["water_frequency"] += 1
 
+    def sunlight(self):
+        self._care_record["sunlight_exposure"] += 1
+
     def harvest(self):
         # You cant harvest a plant, but this methods will be used in Tree and Bush.
         pass
