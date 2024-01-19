@@ -12,10 +12,8 @@ def main(garden_save):
         except Exception as e:
             print(f"Failed to load garden from {e}.")
     else:
-        #TODO Change to user input creation of garden
-        n = input("Enter garden size (n): ")
-        m = input("Enter garden size (m): ")
-        n,m = map(int, (n, m))
+        n = int(input("Enter garden size (n): "))
+        m = int(input("Enter garden size (m): "))
         garden = Garden(n, m)
         
     
@@ -35,8 +33,13 @@ def main(garden_save):
 
         
         if choice == '1':
-            coords = input("Enter coordinates x,y (leave blank if random): ")
+            coords = input("Enter coordinates y,x (leave blank if random): ")
             x,y=map(int, coords.split(',')) if coords else (randint(0, n - 1), randint(0, n - 1))
+            
+            # check if coords in range
+            if x >= n or y >= m:
+                print("Invalid coordinates. Please enter valid coordinates.")
+                continue
 
             plant_type = ''
             while plant_type not in {"Flower", "Tree", "Bush"}: 
@@ -51,13 +54,20 @@ def main(garden_save):
             # Add print after adding plant
             print(f"Added {plant_type} {name} at ({x},{y})")
             garden.show()
+
         elif choice == '2':
             input_coords = input("Enter coordinates x,y (leave blank if water all): ")
             if input_coords:
                 x,y=map(int, input_coords.split(','))
                 garden.water_plant(x,y)
+            else:
+                garden.water_plant()
+
         elif choice == '3':
-            garden.harvest_plant()
+                # TODO SAME AS WITH WATER
+                harvested_fruits = garden.harvest_plant()
+                print("Harvested fruits: ", [fruit._emoji for fruit in harvested_fruits])
+                
         elif choice == '4':
             garden.end_day()
         elif choice == '5':
@@ -69,12 +79,20 @@ def main(garden_save):
                 print(" ".join([f"{key.split('_')[0]}:{value}" for key, value in plant['requirements'].items()]))
                 print("Care: ", end='')
                 print(" ".join([f"{key.split('_')[0]}:{value}" for key, value in plant['care_record'].items()]))
+                
+                if 'fruitful' in plant:
+                    print(
+                        "Fruits:" , list(" ".join([f"{fruit._emoji}" for fruit in plant['fruit_list']]).split())
+                    )
+
             print("-"*30)  # Divider between plants
+
+
             garden.show() # Show garden after status
         elif choice == '6':
             break
         elif choice == '7':
-            filename = 'garden.pkl'
+            filename = input("Enter filename to save to: ")
             with open(filename, 'wb') as file:
                 pickle.dump(garden, file)
             print(f"Garden saved to {filename}.")
