@@ -1,36 +1,39 @@
 from objects import *
 from random import randint
 import pickle
+import argparse
 
-def main(preset=True):
-    if preset:
-        n, m = 5, 5
-        garden = Garden(n, m)
-        plants = [("Flower", 3), ("Tree", 2), ("Bush", 2)]
-
-        for plant_type, quantity in plants:
-            for i in range(quantity):
-                x, y = randint(0, n - 1), randint(0, n - 1)
-                plant = globals()[plant_type](name=f'{plant_type.lower()}{i}')
-                garden.add_plant(plant, x, y)
+def main(garden_save):
+    if garden_save:
+        try:
+            with open(garden_save, 'rb') as file:
+                garden = pickle.load(file)
+            print(f"Loaded garden from {garden_save}.")
+        except Exception as e:
+            print(f"Failed to load garden from {e}.")
     else:
-        with open('garden.pkl', 'rb') as file:
-            garden = pickle.load(file)
-
+        #TODO Change to user input creation of garden
+        n = input("Enter garden size (n): ")
+        m = input("Enter garden size (m): ")
+        n,m = map(int, (n, m))
+        garden = Garden(n, m)
+        
+    
+    # Show garden after loading/creation
+    garden.show()
 
     while True:
-        garden.show()
         print("Choose an action:")
         print("1. Add more plants")
         print("2. Water them")
         print("3. Harvest")
-        print("4. Skip day")
+        print("4. End day")
         print("5. Status")
         print("6. Exit")
         print("7. Save garden to file")
         choice = input("Enter your choice (1-7): ")
 
-        #  TODO maybe do it in switch case
+        
         if choice == '1':
             coords = input("Enter coordinates x,y (leave blank if random): ")
             x,y=map(int, coords.split(',')) if coords else (randint(0, n - 1), randint(0, n - 1))
@@ -45,8 +48,14 @@ def main(preset=True):
             plant = globals()[plant_type](name=name)  # Ensure globals()[plant_type] is safe to use
             garden.add_plant(plant, x, y)
 
+            # Add print after adding plant
+            print(f"Added {plant_type} {name} at ({x},{y})")
+            garden.show()
         elif choice == '2':
-            garden.water_plant()
+            input_coords = input("Enter coordinates x,y (leave blank if water all): ")
+            if input_coords:
+                x,y=map(int, input_coords.split(','))
+                garden.water_plant(x,y)
         elif choice == '3':
             garden.harvest_plant()
         elif choice == '4':
@@ -61,6 +70,7 @@ def main(preset=True):
                 print("Care: ", end='')
                 print(" ".join([f"{key.split('_')[0]}:{value}" for key, value in plant['care_record'].items()]))
             print("-"*30)  # Divider between plants
+            garden.show() # Show garden after status
         elif choice == '6':
             break
         elif choice == '7':
@@ -73,4 +83,9 @@ def main(preset=True):
 
 
 if __name__ == '__main__':
-    main(True)
+    parser = argparse.ArgumentParser(description="Run the garden program.")
+    parser.add_argument('--seed', type=str, default=False,
+                        help='Path to a garden pickle file to preload')
+    
+    args = parser.parse_args()
+    main(args.seed)
