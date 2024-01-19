@@ -3,7 +3,6 @@ from random import randint
 import pickle
 import argparse
 
-# branch
 def main(garden_save):
     if garden_save:
         try:
