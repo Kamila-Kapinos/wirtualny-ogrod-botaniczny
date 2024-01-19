@@ -47,7 +47,7 @@ class Plant:
         return self.ready_to_reproduce
 
     def update(self, is_in_sunlight: bool, is_raining: bool):
-        self._care_record["sunlight_exposure"] += is_in_sunlight
+        self._care_record["sunlight_exposure"] += is_in_sunlight 
         self._care_record["water_frequency"] += is_raining
 
         # Day decay
@@ -55,6 +55,7 @@ class Plant:
 
         self._grow()
         self.reproduction()
+        self._wither()
 
     def water(self):
         self._care_record["water_frequency"] += 1
@@ -80,7 +81,7 @@ class Plant:
 
         return offspring
 
-    def get_status(self):
+    def get_status(self) -> dict:
         return {
             "name": self._name,
             "emoji": self.emoji,
