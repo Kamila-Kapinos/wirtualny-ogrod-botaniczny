@@ -54,14 +54,20 @@ class Garden:
         else:
             self._plots[y][x].water_plant()
 
-    def harvest_plant(self, x: int = None, y: int = None):
+    def harvest_plant(self, x: int = None, y: int = None) -> list:
         # harvest all plots by default or harvest a specific plot given x,y coordinates
+        
+        harvested = []
         if y is None or x is None:
             for row in self._plots:
                 for plot in row:
-                    plot.harvest_plant()
+                    harvest = plot.harvest_plant()
+                    if harvest:
+                        for fruit in harvest:
+                            harvested.append(fruit)
         else:
             self._plots[y][x].harvest_plant()
+        return harvested
 
     def end_day(self):
         # Iterate over all plots in the garden
@@ -70,11 +76,16 @@ class Garden:
                 if plot.has_plant():
                     # Update each plant
                     plot.update(self._sunny, self._raining)
-                    self.harvest_plant(x, y)
+                    # self.harvest_plant(x, y)
                     self._reproduce(x, y)
+                    # Check if plant is dead if so remove it
+                    print(plot.is_dead())
+                    if plot.is_dead(): 
+                        print(f"Plant at ({y},{x}) has died")
+                        self.remove_plant(y,x)
         # END OF ITERATION
 
-        # ends day calculations for the next day
+        # Calculations for the next day
         self._sunny_day()
         self._rainy_day()
         self._day_counter += 1
@@ -94,6 +105,18 @@ class Garden:
 
     def show(self):
         # TODO: add weather status
+        
+        weather_status = "Weather: "
+        if self._sunny and self._raining:
+            weather_status += "🌦️"  # Sun shower
+        elif self._sunny:
+            weather_status += "☀️"   # Sunny
+        elif self._raining:
+            weather_status += "🌧️"   # Raining
+        else:
+            weather_status += "☁️"   # Neutral weather
+
+        sys.stdout.write(weather_status + '\n')
         n = len(self._plots[0])  # Assuming all rows have equal number of plots
         horizontal_separator = '+' + ('----+' * n)
         sys.stdout.write(horizontal_separator + '\n')
