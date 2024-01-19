@@ -36,11 +36,14 @@ class Bush(Plant):
 
     def harvest(self) -> list:
         harvested = []
-        for index, fruit in enumerate(self._fruit_list):
+        # Iterate over a copy of the list
+        for fruit in self._fruit_list[:]:
             if fruit.is_ripe():
-                harvested.append(self._fruit_list.pop(index))
+                harvested.append(fruit)
+                self._fruit_list.remove(fruit)  # Remove the fruit from the original list
+        # print harvested fruits
         return harvested
-
+    
     def _bloom(self) -> None:
         # Create flower class
         if len(self._fruit_list) < self._max_fruits:
@@ -50,3 +53,11 @@ class Bush(Plant):
         # Create fruit class
         for fruit in self._fruit_list:
             fruit.update()
+
+    def get_status(self):
+        status = super().get_status()
+        status['fruitful'] = self._fruitful
+        status['blooming'] = self._blooming
+        status['leaves'] = self._leaves
+        status['fruit_list'] = self._fruit_list
+        return status
