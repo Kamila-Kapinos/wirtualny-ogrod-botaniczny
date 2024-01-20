@@ -24,7 +24,7 @@ def main(garden_save):
         print("Choose an action:")
         print("1. Add more plants")
         print("2. Water them")
-        print("3. Sunlight") # TODO: rename this?
+        print("3. Add Extra-Sunlight")
         print("4. Harvest")
         print("5. End day")
         print("6. Status")
@@ -50,12 +50,14 @@ def main(garden_save):
                 if plant_type not in {"Flower", "Tree", "Bush"}:
                     print("Invalid plant type. Please enter a valid plant type.")
             
-            name = input("Enter plant name: ") or f'{plant_type.lower()}{randint(0, 100)}'
+            name = input("Enter plant name (leave bland for random): ") or f'{plant_type.lower()}{randint(0, 100)}'
             plant = globals()[plant_type](name=name)  # Ensure globals()[plant_type] is safe to use
-            garden.add_plant(plant, x, y)
-
+            try:
+                garden.add_plant(plant, x, y)
+                print(f"Added {plant_type} {name} at ({x},{y})")
+            except ValueError as e:
+                print(f"Failed to add plant: {e}")
             # Add print after adding plant
-            print(f"Added {plant_type} {name} at ({x},{y})")
             garden.show()
 
         elif choice == '2':

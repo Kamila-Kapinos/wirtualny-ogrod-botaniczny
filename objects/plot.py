@@ -7,8 +7,7 @@ class Plot:
 
     def place_plant(self, plant: Plant):
         if self._contained_plant is not None:
-            pass
-            # raise ValueError("Plot is already occupied")
+            raise ValueError("Plot is already occupied")
         self._contained_plant = plant
 
     def remove_plant(self):
