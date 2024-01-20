@@ -13,7 +13,9 @@ Projekt został napisany w języku Python.
 Aplikację należy obsługiwać przez uruchomienie pliku **main.py**. Testowane środowiska to PyCharm (niezalecane korzystanie z wbudowanego terminala) i VisualStudioCode. Rekomendowane narzędzia do otwierania programu (szczególnie z zapisanego pliku) to: PowerShell lub Terminal (w MacOS).\
 Istnieje możliwość otworzenia wcześniej zapisanego ogrodu z poziomu terminala poprzez dodanie parametru "--seed=nazwa_pliku".\
 Przykładowe polecenia do uruchomienia aplikacji z zapisanym wcześniej ogrodem: 
-``` py main.py --seed=garden.pkl ```
+```bash
+py main.py --seed=nazwa_pliku.pkl
+```
 
 ## Zakres funkcjonalności
 **Główne funkcje**:
