@@ -50,7 +50,7 @@ def main(garden_save):
                 if plant_type not in {"Flower", "Tree", "Bush"}:
                     print("Invalid plant type. Please enter a valid plant type.")
             
-            name = input("Enter plant name (leave bland for random): ") or f'{plant_type.lower()}{randint(0, 100)}'
+            name = input("Enter plant name (leave blank for random): ") or f'{plant_type.lower()}{randint(0, 100)}'
             plant = globals()[plant_type](name=name)  # Ensure globals()[plant_type] is safe to use
             try:
                 garden.add_plant(plant, x, y)
