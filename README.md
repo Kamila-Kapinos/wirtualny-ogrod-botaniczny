@@ -10,8 +10,8 @@ Wirtualny Ogród Botaniczny to aplikacja, która pozwala użytkownikom na stworz
 Projekt został napisany w języku Python.
 
 ## Wersje rozszerzeń
-Python 3.10.4
-pip 22.0.4 
+- Python 3.10.4
+- pip 22.0.4 
 
 ## Uruchomienie
 Aplikację należy obsługiwać przez uruchomienie pliku **main.py**. Testowane środowiska to PyCharm (niezalecane korzystanie z wbudowanego terminala) i VisualStudioCode. Rekomendowane narzędzia do otwierania programu (szczególnie z zapisanego pliku) to: PowerShell lub Terminal (w MacOS).\
